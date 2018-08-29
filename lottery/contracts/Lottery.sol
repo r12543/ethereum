@@ -7,7 +7,7 @@ contract Lottery {
     constructor() public {
         manager = msg.sender;
     }
-    
+
     function enter() public payable {
         require(msg.value > .01 ether);
         players.push(msg.sender);
@@ -16,7 +16,7 @@ contract Lottery {
     function random() private view returns (uint) {
         return uint(keccak256(block.difficulty, now, players));
     }
-    
+
     function pickWinner() public restricted {
         uint index = random() % players.length;
         players[index].transfer(this.balance);
