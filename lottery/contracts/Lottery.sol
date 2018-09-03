@@ -9,7 +9,7 @@ contract Lottery {
     }
 
     function enter() public payable {
-        require(msg.value > .01 ether);
+        require(msg.value > .01 ether, "Amount is less than minimum amount to enter");
         players.push(msg.sender);
     }
     
@@ -24,7 +24,7 @@ contract Lottery {
     }
     
     modifier restricted() {
-        require(msg.sender == manager);
+        require(msg.sender == manager, "Sender is not manager");
         _;
     }
     
