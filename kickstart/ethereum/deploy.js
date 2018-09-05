@@ -13,12 +13,14 @@ const deploy = async () => {
   console.log("Attempting to deploy contract from account:", accounts[0]);
 
   const result = await new web3.eth.Contract(
-    JSON.parse(compiledFactory.interface)
-  )
+      JSON.parse(compiledFactory.interface)
+    )
     .deploy({
       data: "0x" + compiledFactory.bytecode
     })
-    .send({ from: accounts[0] });
+    .send({
+      from: accounts[0]
+    });
 
   console.log("Contract deployed to", result.options.address);
 };

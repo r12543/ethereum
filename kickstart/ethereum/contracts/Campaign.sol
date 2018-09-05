@@ -2,12 +2,12 @@ pragma solidity ^0.4.24;
 
 contract CampaignFactory {
     address[] public deployedCampaigns;
-    
+
     function createCampaign (uint minimum) public {
         address newCampaign = new Campaign(minimum, msg.sender);
         deployedCampaigns.push(newCampaign);
     }
-    
+
     function getDeployedCampaigns() public view returns (address[]) {
         return deployedCampaigns;
     }
@@ -22,7 +22,7 @@ contract Campaign {
         uint approvalCount;
         mapping(address => bool) approvals;
     }
-    
+
     Request[] public requests;
     address public manager;
     uint public minimumContribution;
@@ -41,7 +41,7 @@ contract Campaign {
 
     function contribute() public payable {
         require(msg.value > minimumContribution, "Requires minimum contribution");
-        
+
         approvers[msg.sender] = true;
         approversCount++;
     }
@@ -63,17 +63,17 @@ contract Campaign {
 
         require(approvers[msg.sender], "Sender is not approved");
         require(!request.approvals[msg.sender], "Sender is not allowed to approve the request");
-        
+
         request.approvals[msg.sender] = true;
         request.approvalCount++;
     }
-    
+
     function finalizeRequest(uint index) public restricted {
         Request storage request = requests[index];
 
         require(!request.complete, "Request is already finalized");
         require(request.approvalCount > (approversCount / 2), "Not enough votes");
-        
+
         request.recipient.transfer(request.value);
         request.complete = true;
     }
