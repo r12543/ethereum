@@ -1,1 +1,1 @@
-# udemy-ethereum
+# ethereum
